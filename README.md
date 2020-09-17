@@ -31,7 +31,7 @@ Como representar isso na linguagem C?
 	– Cada ponto, dependendo da escolha do jogador, será substituído por: _ ou |.
 
 . . . . . . . . . . .
-. . . . . . . . . . .
+. . . . . . . . . . . 
 . . . . . . . . . . .
 . . . . . . . . . . .
 . | . . . . . . . . .
