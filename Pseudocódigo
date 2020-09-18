@@ -64,16 +64,22 @@ Algoritmo menu{
     int escolha;
     
     // Imprimir “abertura do jogo” aqui
+repita:
+	    imprima (“Escolha uma opção: \n”);
+	    imprima (“1 - Jogar ”);
+	    imprima (“2 - Instruções”);
+	    imprima (“3 - Sair”);
+	    Leia (escolha);
 
-    imprima (“Escolha uma opção: \n”);
-    imprima (“1 - Jogar \n 2 - Instruções ”);
-    Leia (escolha);
-
-    Se escolha for 1
-        chamar função jogo;
-    Senão Se escolha for 2
-        chamar função instruções;
-    Senão    
-        Imprima (“Escolha inválida”);
+	Escolha:
+	    Se escolha for 1:
+		chamar função jogo();
+	    Senão Se escolha for 2:
+		chamar função instruções();
+	    Senão se escolha for 3:
+	    	imprima("Sair do jogo)
+	    senao (escolha = 1) ou (escolha=2) ou (escolha=3) entao
+   		imprima("Você digitou uma opção inválida, tente novamente.")
+		
 } 
     
