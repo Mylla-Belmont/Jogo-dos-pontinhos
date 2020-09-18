@@ -1,6 +1,7 @@
 # Jogo-dos-pontinhos
 
-Cada jogador deverá fazer uma reta (vertical ou horizontal) entre dois pontos. Ganha aquele que completar o maior número de quadradinhos.
+Cada jogador deverá fazer uma reta (vertical ou horizontal) entre dois pontos. 
+Ganha aquele que completar o maior número de quadradinhos.
 
 Regras:
 	
