@@ -4,6 +4,7 @@
 int main(){
 	char posicao;
 	int num_linha, num_coluna, tam_jogo, cont=0, jog=0;
+	int menu;
 
 printf("----------------------------------------------------------\n");
 printf("|########################################################|\n");
@@ -13,36 +14,66 @@ printf("|###############                        #################|\n");
 printf("|########################################################|\n");
 printf("----------------------------------------------------------\n\n");
 
-	printf("Insira o tamanho do jogo:\n");
-	scanf("%d", &tam_jogo);
+printf("Insira o tamanho do jogo:\n");
+scanf("%d", &tam_jogo);
 	
-	char matriz[tam_jogo][tam_jogo];
-	
-	while(1){
-	for(int i=0; i<tam_jogo+1; i++){
-		for(int j=0; j<tam_jogo+1; j++){
-			
-			if(cont == 0)
-				matriz[i][j] = '.';
-					
-			if(j != tam_jogo)
-				printf("%c", matriz[i][j]);
-			else
-				printf("%c\n", matriz[i][j]);
-		
+char matriz[tam_jogo][tam_jogo];
+
+while(1) 	
+{ 
+
+system("cls");
+printf("\n\tMenu\n\nO que voce quer fazer?\n\n1 - Iniciar o Jogo\n2 - Ver Instrucoes\n3 - Sair do jogo\n--> "); 		
+printf("\n");
+scanf(" %i",&menu); 
+
+switch(menu) 		
+{ 						
+	case 1: 			
+		{ 
+		while(1){
+		for(int i=0; i<tam_jogo+1; i++){
+			for(int j=0; j<tam_jogo+1; j++){
+
+				if(cont == 0)
+					matriz[i][j] = '.';
+
+				if(j != tam_jogo)
+					printf("%c", matriz[i][j]);
+				else
+					printf("%c\n", matriz[i][j]);
+
+			}	
+		}
+				cont = 1;
+				printf("\nJogador %d, digite linha, coluna e a posicao:\n", jog);
+				scanf("%d %d %c", &num_linha, &num_coluna, &posicao);
+
+				if(posicao == 'h')
+					matriz[num_linha][num_coluna] = '_';
+				if(posicao == 'v')
+					matriz[num_linha][num_coluna] = '|';
+
+				jog = !jog;
+
 		}	
+		return 0;
 	}
-			cont = 1;
-			printf("\nJogador %d, digite linha, coluna e a posicao:\n", jog);
-			scanf("%d %d %c", &num_linha, &num_coluna, &posicao);
+
 	
-			if(posicao == 'h')
-				matriz[num_linha][num_coluna] = '_';
-			if(posicao == 'v')
-				matriz[num_linha][num_coluna] = '|';
+	case 3: 			
+		{ 	
+			system("cls");			
+			printf("\n\n\nJogo enecerrado!\n\n\n"); 				
+			return 0; 			
+			break; 	
 			
-			jog = !jog;
-			
-	}	
-	return 0;
+			} 			
+			default: 			
+			{ 	
+			system("cls");			
+			printf("\n\n\nOpcão inválida, tente novamente !\n\n\n"); 			
+			} 		
+		} 	
+	} 
 }
