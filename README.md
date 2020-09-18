@@ -13,7 +13,7 @@ Regras:
 
 Requisitos (até o momento):
 
-	Matriz;
-	Funções;
-	Strings;
-	Estruturas condicionais;
+	- Matriz;
+	- Funções;
+	- Strings;
+	- Estruturas condicionais;
