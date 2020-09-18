@@ -1,0 +1,75 @@
+
+// Função principal para o jogo
+Algoritmo [função] jogo_inicio{
+    int tam_jogo, cont = 1;                       //Cont 1, imprime a matriz com a escolha do jogador
+    char nome_jog1, nome_jog2;
+    
+    Imprima (“Qual o nome do jogador 1?: \n”);
+    Leia (nome_jog1);
+
+    Imprima (“Qual o nome do jogador 1?:  \n”);
+    Leia (nome_jog2);
+
+    Imprima (“Agora digite o tamanho do jogo desejado: \n”);
+    Leia (tam_jogo);
+    
+    char matriz[tam_jogo][tam_jogo];
+    char posicao;
+	  int num_linha, num_coluna, cont=0;
+
+    Enquanto 1{
+    
+         For (i < tam_jogo+1){                  //Coluna e linha a maisa para adicionar as coordenadas
+          For (j < tam_jogo+1){
+
+            Se (cont == 0)                     //Imprime matriz sem nenhuma jogada
+              matriz [ i ] [ j ] = '.';
+                    
+            Se(cont == 1 && j != tam_jogo)    //Imprime matriz tam x tam
+              Imprima (matriz [ i ] [ j ]);
+            Senão
+              Imprima ( \n matriz [ i ] [ j ]);
+              
+        cont = 1;
+        Imprima ('NOME DO JOGADOR', digite as coordenadas: \n);
+        Leia (num_linha, num_coluna)    //Ignorar os caracteres das coordenadas
+        
+            Se (posicao == 'h')
+				      matriz [num_linha] [num_coluna] = '_';
+			      Se (posicao == 'v')
+				      matriz [num_linha] [num_coluna] = '|';
+              
+    }   
+}
+
+
+// Função para instruções
+Algoritmo [função] instruções{
+    
+Imprima (“Cada jogador deve fazer uma reta nas coordenadas.\n”);
+//Imprimir matriz coordenada
+
+Imprima (“O objetivo é fechar o maior número de quadrados”);
+Imprima (“Pressione qualquer tecla para sair...”);
+Leia (tecla);
+}
+
+
+// Menu do jogo 
+Algoritmo menu{
+    int escolha;
+    
+    // Imprimir “abertura do jogo” aqui
+
+    imprima (“Escolha uma opção: \n”);
+    imprima (“1 - Jogar \n 2 - Instruções ”);
+    Leia (escolha);
+
+    Se escolha for 1
+        chamar função jogo;
+    Senão Se escolha for 2
+        chamar função instruções;
+    Senão    
+        Imprima (“Escolha inválida”);
+} 
+    
