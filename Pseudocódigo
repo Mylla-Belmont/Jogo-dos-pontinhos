@@ -39,9 +39,13 @@ Algoritmo [função] jogo_inicio{
 			      Se (posicao == 'v')
 				      matriz [num_linha] [num_coluna] = '|';
               
-    }   
+    }   	
 }
-
+//Função  para definir estrutura do jogador
+Algoritmo [função] jogador{
+	nome;
+	quantidade_pontos
+	};
 
 // Função para instruções
 Algoritmo [função] instruções{
