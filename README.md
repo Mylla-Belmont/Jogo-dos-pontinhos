@@ -45,7 +45,7 @@ Como representar isso na linguagem C?
 	– Para facilitar a identificação das coordenadas, a matriz será formada com 1 coluna e 1 linha a
 	mais, sendo coluna [i] preenchido por C1, C2, …, Cn, e linha [j] preenchido por L1, L2, …, Ln.
 
-	C1 C2 C3 C4 C5 C6 C7
+   C1 C2 C3 C4 C5 C6 C7
 L1 . . . . . . . . . .
 L2 . . . . . . . . . .
 L3 . . . . . . . . . .
