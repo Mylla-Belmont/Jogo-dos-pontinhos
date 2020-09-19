@@ -57,61 +57,52 @@ while(1){
 		return 0;
 	}
 
-//Funcao de ajuda sobre jogo dos pontinhos
+//Funcao de instruções
 int instrucoes(){
-			while(1){
-                    printf("\n_____________________________O QUE E O JOGO DOS PONTINHOS?_______________________________");
-                    printf("\n\t Cada jogador deve fazer uma reta nas coordenadas...\n");
-                    printf("\n_____________________________  O OBJETIVO  _______________________________");
-                    printf("\n\n\t O objetivo e fechar o maior numero de quadrados!\n\n");
-                    printf("____________________________________________________________________________\n\n");
-                    break;
+		system("cls");
+
+		while(1){
+			printf("\n____________________________________COMO JOGAR____________________________________");
+			printf("\n\nCada jogador deve fazer uma reta ('|' vertical, ou '_' horizontal) nas coordenadas.");
+			printf("\nGanha aquele que fechar o maior numero de quadrados!\n\n");
+			printf("\n______________________________________REGRAS______________________________________");
+			printf("\n\n1 - Nao pode sobrepor retas.");
+			printf("\n2 - Um quadrado so podera ser completado caso ja houver 3 lados preenchidos.");
+			printf("\n3 - Caso o jogador complete um quadrado, tera o direito de fazer uma nova reta.\n\n");			
+			break;
+		}
 }
-}
+
 //Funcao main (principal) com menu, onde cada funcao é chamada  dentro da sua opcao
 int main(){
    int opcaoMenu;
    inicio:
 	//menu inicial - mostrar opcoes
 
-while(1) 	
-{ 
-
 system("cls");
 printf("\n\tMenu\n\nO que voce quer fazer?\n\n1 - Iniciar o Jogo\n2 - Ver Instrucoes\n3 - Sair do jogo\n--> "); 		
 printf("\n");
 scanf(" %i",&opcaoMenu); 
 
-switch(opcaoMenu) 		
-{ 						
+switch(opcaoMenu){ 						
 	case 1: 			
-		{
 		jogo();
-		}
 		
 	case 2:
-		
-		{
-			// Função para instruções
-		instrucoes();
+		instrucoes();	// Função para instruções
 		system("pause");
 		goto inicio; // rotulo que retorna para inicio do menu 
-		}
-		
+	
 	case 3: 			
-		{
-			system("cls");			
-			printf("\n\n\nJogo enecerrado!\n\n\n"); 				
-			return 0; 			
-			break; 	
+		system("cls");			
+		printf("\n\n\nJogo enecerrado!\n\n\n"); 				
+		return 0; 			
+		break; 	
 			
-		}
 	default: 			
-		{
-					
-				printf("\nOpcao invalida, tente novamente !"); 
-				system("pause");			
-		}	
+		printf("\nOpcao invalida, tente novamente !"); 
+		system("pause");			
+			
 		}
 	} 
 }
