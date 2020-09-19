@@ -68,8 +68,7 @@ int instrucoes(){
                     break;
 }
 }
-
-//Funcao main (principal) com menu, onde cada opcao eu chamo as funcoes desejadas 
+//Funcao main (principal) com menu, onde cada funcao é chamada  dentro da sua opcao
 int main(){
    int opcaoMenu;
    inicio:
