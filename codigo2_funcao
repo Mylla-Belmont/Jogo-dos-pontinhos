@@ -46,18 +46,18 @@ while(1){
 				if(cont == 0)
 				matriz[i][j] = '.';
 			
-				if(j != tam_jogo+1 && i == 0){
-					if(matriz[i][j-1] >= '9'){
+				if(j != tam_jogo+1 && i == 0){		//Condição para adicionar coordenadas apenas na linha 0
+					if(matriz[i][j-1] >= '9'){	//Caso o contador das coordenadas seja > 9, começa a imprimir coordenadas a partir do alfabeto
 						matriz[i][j] = 'A'+(j-10);
 					}else
-						matriz[i][j] = j+'0';
+						matriz[i][j] = j+'0';	//Imprimi coordenadas de forma numerica
 				}
 			
-				if(i != tam_jogo+1 && j == 0){
-					if(matriz[i-1][j] >= '9'){
+				if(i != tam_jogo+1 && j == 0){		//Condição para adicionar coordenadas apenas na coluna 0
+					if(matriz[i-1][j] >= '9'){	//Caso o contador das coordenadas seja > 9, começa a imprimir coordenadas a partir do alfabeto
 						matriz[i][j] = 'A'+(i-10);
 					}else
-						matriz[i][j] = i+'0';
+						matriz[i][j] = i+'0';	//Imprimi coordenadas de forma numerica
 				}
 			
 				if(j != tam_jogo)
