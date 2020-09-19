@@ -35,6 +35,8 @@ scanf("%s", jogador2);
 printf("\nInsira o tamanho do jogo:\n");
 scanf("%d", &tam_jogo);
 	
+system("cls");
+
 char matriz[tam_jogo][tam_jogo];
 
 while(1){
@@ -89,6 +91,7 @@ while(1){
 				}
 				
 				jog = !jog;	// Alterna nome dos jogadores
+				system("cls");
 
 		}	
 		return 0;
