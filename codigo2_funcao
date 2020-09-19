@@ -78,6 +78,7 @@ while(1){
 				if(posicao == 'h'){
 					if(matriz[num_linha][num_coluna+1] == '_' || matriz[num_linha][num_coluna-1] == '_'){
 						printf("\nEssa jogada nao e muito inteligente. Tente novamente.\n");
+						system("pause");
 						jog = !jog;
 					}else
 						matriz[num_linha][num_coluna] = '_';	
@@ -85,6 +86,7 @@ while(1){
 				if(posicao == 'v'){
 					if(matriz[num_linha][num_coluna+1] == '|' || matriz[num_linha][num_coluna-1] == '|'){
 						printf("\nEssa jogada nao e muito inteligente. Tente novamente.\n");
+						system("pause");
 						jog = !jog;
 					}else
 						matriz[num_linha][num_coluna] = '|';
