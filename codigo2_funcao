@@ -32,33 +32,39 @@ scanf("%s", jogador1);
 printf("\nQual o nome do jodador 2?\n");
 scanf("%s", jogador2);
 
-printf("Insira o tamanho do jogo:\n");
+printf("\nInsira o tamanho do jogo:\n");
 scanf("%d", &tam_jogo);
 	
 char matriz[tam_jogo][tam_jogo];
 
 while(1){
-		for(int i=0; i<tam_jogo+1; i++){
+		for(int i=0; i<tam_jogo; i++){
 			for(int j=0; j<tam_jogo+1; j++){
 
 				if(cont == 0)
-					matriz[i][j] = '.';
-
+				matriz[i][j] = '.';
+			
+				if(j != tam_jogo+1 && i == 0){
+					if(matriz[i][j-1] >= '9'){
+						matriz[i][j] = 'A'+(j-10);
+					}else
+						matriz[i][j] = j+'0';
+				}
+			
+				if(i != tam_jogo+1 && j == 0){
+					if(matriz[i-1][j] >= '9'){
+						matriz[i][j] = 'A'+(i-10);
+					}else
+						matriz[i][j] = i+'0';
+				}
+			
 				if(j != tam_jogo)
-					printf("%c", matriz[i][j]);
+					printf(" %c", matriz[i][j]);
 				else
-					printf("%c\n", matriz[i][j]);
+					printf("\n");
 
 			}	
 		}
-				cont = 1;
-				if(jog == 0)
-					printf("\n%s, digite linha, coluna e a posicao:\n", jogador1);
-				else
-					printf("\n%s, digite linha, coluna e a posicao:\n", jogador2);
-						
-				scanf("%d %d %c", &num_linha, &num_coluna, &posicao);
-
 				cont = 1;
 				if(jog == 0)
 					printf("\n%s, digite linha, coluna e a posicao:\n", jogador1);
@@ -136,4 +142,4 @@ switch(opcaoMenu){
 			
 		}
 	} 
-}
+
