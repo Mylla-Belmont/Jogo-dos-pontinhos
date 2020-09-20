@@ -61,9 +61,9 @@ while(1){
 		for(int j=0; j<tam_jogo+1; j++){
 
 			if(cont == 0 && j%2 == 0)
-				matriz[i][j] = '.';
-			else if(cont == 0)
 				matriz[i][j] = ' ';
+			else if(cont == 0)
+				matriz[i][j] = '.';
 				
 			if((j != tam_jogo+1 && i == 0) || (i != tam_jogo+1 && j == 0))
 				matriz[i][j] = coordenada(tam_jogo, i, j);
@@ -84,9 +84,9 @@ while(1){
 			scanf("%d %d", &num_linha, &num_coluna);
 					
 			if(num_coluna % 2 == 0)							//Adiciona | em colunas pontilhadas e _ em espaços vazios
-				matriz[num_linha][num_coluna] = '|';
-			if(num_coluna % 2 != 0)
 				matriz[num_linha][num_coluna] = '_';
+			if(num_coluna % 2 != 0)
+				matriz[num_linha][num_coluna] = '|';
 					
 			jog = !jog;			// Alterna nome dos jogadores
 			system("cls");
