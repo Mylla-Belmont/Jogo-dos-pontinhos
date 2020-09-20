@@ -3,14 +3,31 @@
 #include <string.h> 
 
 //variaves globais
-char posicao;
 int num_linha, num_coluna, tam_jogo, cont=0, jog=0;
 int menu;
 
 //Declaracao subrotinas
 void Jogo();													
-int instrucoes();														
+int instrucoes();
 
+//Função que imprime as coordenadas
+char coordenada(int tam_jogo, int i, int j){
+	char matriz[i][j];
+
+	if(i == 0){
+		if(j >= 10){
+			matriz[i][j] = 'A'+(j-10);		//Transforma numeros compostos em letras
+		}else
+			matriz[i][j] = j+'0';
+	}	
+	if(j == 0){
+		if(i >= 10){
+			matriz[i][j] = 'A'+(i-10);		//Transforma numeros compostos em letras
+		}else
+			matriz[i][j] = i+'0';
+	}
+	return matriz[i][j];
+}
 
 //Funcao que inicia jogo
 int jogo(){
@@ -32,7 +49,7 @@ scanf("%s", jogador1);
 printf("\nQual o nome do jodador 2?\n");
 scanf("%s", jogador2);
 
-printf("\nInsira o tamanho do jogo:\n");
+printf("\nInsira o tamanho do jogo (entre 5 e 36):\n");
 scanf("%d", &tam_jogo);
 	
 system("cls");
@@ -40,61 +57,39 @@ system("cls");
 char matriz[tam_jogo][tam_jogo];
 
 while(1){
-		for(int i=0; i<tam_jogo; i++){
-			for(int j=0; j<tam_jogo+1; j++){
+	for(int i=0; i<tam_jogo; i++){
+		for(int j=0; j<tam_jogo+1; j++){
 
-				if(cont == 0)
+			if(cont == 0 && j%2 == 0)
 				matriz[i][j] = '.';
-			
-				if(j != tam_jogo+1 && i == 0){		//Condição para adicionar coordenadas apenas na linha 0
-					if(matriz[i][j-1] >= '9'){	//Caso o contador das coordenadas seja > 9, começa a imprimir coordenadas a partir do alfabeto
-						matriz[i][j] = 'A'+(j-10);
-					}else
-						matriz[i][j] = j+'0';	//Imprimi coordenadas de forma numerica
-				}
-			
-				if(i != tam_jogo+1 && j == 0){		//Condição para adicionar coordenadas apenas na coluna 0
-					if(matriz[i-1][j] >= '9'){	//Caso o contador das coordenadas seja > 9, começa a imprimir coordenadas a partir do alfabeto
-						matriz[i][j] = 'A'+(i-10);
-					}else
-						matriz[i][j] = i+'0';	//Imprimi coordenadas de forma numerica
-				}
-			
-				if(j != tam_jogo)
-					printf(" %c", matriz[i][j]);
-				else
-					printf("\n");
-
-			}	
-		}
-				cont = 1;
-				if(jog == 0)
-					printf("\n%s, digite linha, coluna e a posicao:\n", jogador1);
-				else
-					printf("\n%s, digite linha, coluna e a posicao:\n", jogador2);
-						
-				scanf("%d %d %c", &num_linha, &num_coluna, &posicao);
-
-				if(posicao == 'h'){
-					if(matriz[num_linha][num_coluna+1] == '_' || matriz[num_linha][num_coluna-1] == '_'){
-						printf("\nEssa jogada nao e muito inteligente. Tente novamente.\n");
-						system("pause");
-						jog = !jog;
-					}else
-						matriz[num_linha][num_coluna] = '_';	
-				}	
-				if(posicao == 'v'){
-					if(matriz[num_linha][num_coluna+1] == '|' || matriz[num_linha][num_coluna-1] == '|'){
-						printf("\nEssa jogada nao e muito inteligente. Tente novamente.\n");
-						system("pause");
-						jog = !jog;
-					}else
-						matriz[num_linha][num_coluna] = '|';
-				}
+			else if(cont == 0)
+				matriz[i][j] = ' ';
 				
-				jog = !jog;	// Alterna nome dos jogadores
-				system("cls");
+			if((j != tam_jogo+1 && i == 0) || (i != tam_jogo+1 && j == 0))
+				matriz[i][j] = coordenada(tam_jogo, i, j);
+			
+			if(j != tam_jogo)
+				printf(" %c", matriz[i][j]);
+			else
+				printf("\n");
 
+		}	
+	}
+			cont = 1;
+			if(jog == 0)
+				printf("\n%s, digite linha e coluna:\n", jogador1);
+			else
+				printf("\n%s, digite linha e coluna:\n", jogador2);
+							
+			scanf("%d %d", &num_linha, &num_coluna);
+					
+			if(num_coluna % 2 == 0)							//Adiciona | em colunas pontilhadas e _ em espaços vazios
+				matriz[num_linha][num_coluna] = '|';
+			if(num_coluna % 2 != 0)
+				matriz[num_linha][num_coluna] = '_';
+					
+			jog = !jog;			// Alterna nome dos jogadores
+			system("cls");
 		}	
 		return 0;
 	}
