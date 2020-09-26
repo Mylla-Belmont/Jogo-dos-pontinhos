@@ -113,33 +113,36 @@ int instrucoes(){
 //Funcao main (principal) com menu, onde cada funcao é chamada  dentro da sua opcao
 int main(){
    int opcaoMenu;
-   inicio:
-	//menu inicial - mostrar opcoes
 
-system("cls");
-printf("\n\tMenu\n\nO que voce quer fazer?\n\n1 - Iniciar o Jogo\n2 - Ver Instrucoes\n3 - Sair do jogo\n--> "); 		
-printf("\n");
-scanf(" %i",&opcaoMenu); 
+    do
+    {
+        printf("\n\tO que voce quer fazer?\n\n");
+        printf("1. Iniciar o Jogo\n");
+        printf("2.  Ver Instrucoes\n");
+        printf("0. Sair\n");
 
-switch(opcaoMenu){ 						
-	case 1: 			
-		jogo();
-		
-	case 2:
-		instrucoes();	// Função para instruções
-		system("pause");
-		goto inicio; // rotulo que retorna para inicio do menu 
-	
-	case 3: 			
-		system("cls");			
-		printf("\n\n\nJogo enecerrado!\n\n\n"); 				
-		return 0; 			
-		break; 	
-			
-	default: 			
-		printf("\nOpcao invalida, tente novamente !"); 
-		system("pause");			
-			
-		}
-	} 
+        scanf("%d", &opcaoMenu);
+        system("cls || clear");
 
+        switch(opcaoMenu)
+        {
+            case 1:
+                jogo();
+                break;
+
+            case 2:
+                instrucoes();	// Função para instruções
+                break;
+
+
+            case 0:
+                system("cls");			
+		        printf("\n\n\nJogo enecerrado!\n\n\n"); 				
+		        return 0; 			
+		        break; 	
+
+            default:
+                printf("Digite uma opcao valida\n");
+        }
+    } while(opcaoMenu);
+} 
