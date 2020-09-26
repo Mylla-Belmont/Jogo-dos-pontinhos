@@ -1,0 +1,168 @@
+#include <stdio.h>			
+#include <stdlib.h>			
+#include <string.h> 
+
+//entradas -> VALORES DE INSERIDO PELOS JOGADORES
+
+//variaveis globais
+int aux=0, cont=0, jogador=0;	
+
+
+//Estrutura
+typedef struct entradas{
+	char nome1[50], nome2[50];
+	char matriz[100][100];
+	int tamanho, linha, coluna;
+}entradas;
+
+
+//Regras do jogo 
+int regras(entradas entrada, int aux){
+	if(aux == 0)		//Regra para inserir tamanho correto da matriz
+		if(entrada.tamanho<5 || entrada.tamanho>36){ printf("Tamanho invalido! Tente novamente...\n"); return 1; }
+	
+	if(aux == 1)		//Regra para sobreposição de retas
+		if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_')
+			{ printf("coordenada invalida! Tente novamente...\n"); return 1; }
+		
+	return 0; 
+}
+
+
+//Função que imprime as coordenadas
+char coordenada(entradas entrada, int i, int j){
+	
+	if(i == 0){												//Para linhas
+		if(j >= 10){ entrada.matriz[i][j] = 'A'+(j-10);		//Transforma numeros duplos em letras
+		}else { entrada.matriz[i][j] = j+'0'; }	
+	}
+	if(j == 0){												//Para colunas
+		if(i >= 10){ entrada.matriz[i][j] = 'A'+(i-10);		//Transforma numeros duplos em letras
+		}else { entrada.matriz[i][j] = i+'0'; }
+	}	
+	return entrada.matriz[i][j];
+}
+
+
+//Função de jogadas
+void jogada(entradas entrada){
+	
+	while(1){
+		
+		for(int i=0; i<entrada.tamanho; i++){
+			for(int j=0; j<entrada.tamanho+1; j++){
+
+				if(cont == 0 && j%2 == 0){ entrada.matriz[i][j] = ' '; }	//Inseri caracteres que forma a matriz
+				else if(cont == 0){ entrada.matriz[i][j] = '.'; }
+							
+				entrada.matriz[i][j] = coordenada(entrada, i, j);
+						
+				if(j != entrada.tamanho) { printf(" %c", entrada.matriz[i][j]); }		//Imprimi a matriz
+				else  { printf("\n"); }	
+			}
+		}		
+		cont=1; 
+			
+		while(1){
+			aux = 1;
+			
+			if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);   //Lê a jogada dos jogadores
+			else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
+												
+			scanf("%d %d", &entrada.linha, &entrada.coluna);
+				
+			if(regras(entrada, aux) == 0) { break; }		//Verifica se há sobreposição de retas
+		}
+								
+			if(entrada.coluna % 2 == 0)							//Adiciona | em colunas pontilhadas e _ em espaços vazios
+				entrada.matriz [entrada.linha][entrada.coluna] = '_';
+			if(entrada.coluna % 2 != 0)
+				entrada.matriz [entrada.linha][entrada.coluna] = '|';
+						
+		jogador = !jogador;			// Alterna nome dos jogadores
+		system("cls");		
+	}
+}
+
+
+//Função para leitura de informações
+entradas leitura(entradas entrada){
+	
+	printf("Qual o nome do jodador 1?\n");
+	scanf("%s", entrada.nome1);
+
+	printf("\nQual o nome do jodador 2?\n");
+	scanf("%s", entrada.nome2);
+
+	while(aux == 0){
+		printf("\nInsira o tamanho do jogo (entre 5 e 36):\n");
+		scanf("%d", &entrada.tamanho);
+		
+		if(regras(entrada, aux) == 0) { break; }	//Verifica se o tamanho inserido é valido
+	}	
+	return entrada;
+}
+
+
+//Função principal do jogo
+int jogo(){
+	system("cls");
+
+	printf("----------------------------------------------------------\n");
+	printf("|########################################################|\n");
+	printf("|###############                        #################|\n");
+	printf("|###############   JOGO DOS PONTINHOS   #################|\n");
+	printf("|###############                        #################|\n");
+	printf("|########################################################|\n");
+	printf("----------------------------------------------------------\n\n");
+	
+	entradas entrada;
+	entrada = leitura(entrada);		//Chama a função leitura
+	
+	system("cls");
+	jogada(entrada);				//Chama a função jogada
+	return 0;
+}
+
+
+//Funcao de instruções
+void instrucoes(){
+	system("cls");
+	
+	printf("\n____________________________________COMO JOGAR____________________________________");
+	printf("\n\nCada jogador deve fazer uma reta ('|' vertical, ou '_' horizontal) nas coordenadas.");
+	printf("\nGanha aquele que fechar o maior numero de quadrados!\n\n");
+	printf("\n______________________________________REGRAS______________________________________");
+	printf("\n\n1 - Nao pode sobrepor retas.");
+	printf("\n2 - Um quadrado so podera ser completado caso ja houver 3 lados preenchidos.");
+	printf("\n3 - Caso o jogador complete um quadrado, tera o direito de fazer uma nova reta.\n\n");			
+}
+
+
+//Funcao main (principal) com menu, onde cada funcao é chamada  dentro da sua opcao
+int main(){
+	int opcaoMenu;
+
+	do{
+		system("cls");
+		printf("\n\tMenu\n\nO que voce quer fazer?\n\n1 - Iniciar o Jogo\n2 - Ver Instrucoes\n3 - Sair do jogo\n-->\n"); 		
+		scanf(" %i",&opcaoMenu); 
+
+		switch(opcaoMenu){ 						
+			case 1: 			
+				jogo(); break;
+				
+			case 2:
+				instrucoes();
+				system("pause");
+				
+			case 3: 			
+				system("cls");			
+				printf("\n\n\nJogo encerrado!\n\n\n"); break; 	
+					
+			default: 			
+				printf("\nOpcao invalida, tente novamente!\n"); 
+				system("pause");
+		}
+	}while(opcaoMenu != 3);
+} 
