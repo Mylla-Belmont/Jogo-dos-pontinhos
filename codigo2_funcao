@@ -3,15 +3,15 @@
 #include <string.h> 
 
 //variaves globais
-int num_linha, num_coluna, tam_jogo, cont=0, jog=0;
-int menu;
+int num_linha, num_coluna, tam_jogo, cont=0, jog=0;  // variaveis globais usadas no jogo
+int opcaoMenu;   // variável des ecolha para inicia jogo, ver instrucoes ou sair
 
 //Declaracao subrotinas
-void Jogo();													
-int instrucoes();
+void Jogo();	  // Função que inicializa o jogo												
+int instrucoes();   // Função onde é posível ver regras do jogo
 
 //Função que imprime as coordenadas
-char coordenada(int tam_jogo, int i, int j){
+char coordenada(int tam_jogo, int i, int j){			//Funcao que gera o tamanho do jogo(matriz) a ser jogada
 	char matriz[i][j];
 
 	if(i == 0){
@@ -26,30 +26,30 @@ char coordenada(int tam_jogo, int i, int j){
 		}else
 			matriz[i][j] = i+'0';
 	}
-	return matriz[i][j];
+	return matriz[i][j];    // Retorna o tamanho da matriz
 }
 
 //Funcao que inicia jogo
 int jogo(){
-	char jogador1[50], jogador2[50];
+	char jogador1[50], jogador2[50]; 	// variveis que jogadores 1 e 2 com tamnho de 50 caractes
 
 system("cls");
 
 printf("----------------------------------------------------------\n");
 printf("|########################################################|\n");
 printf("|###############                        #################|\n");
-printf("|###############   JOGO DOS PONTINHOS   #################|\n");
+printf("|###############   JOGO DOS PONTINHOS   #################|\n");			//Logotipo do jogo
 printf("|###############                        #################|\n");
 printf("|########################################################|\n");
 printf("----------------------------------------------------------\n\n");
 
-printf("Qual o nome do jodador 1?\n");
+printf("Qual o nome do jodador 1?\n");   //Define o nome do jogador 1
 scanf("%s", jogador1);
 
-printf("\nQual o nome do jodador 2?\n");
+printf("\nQual o nome do jodador 2?\n"); // Define o nome do jogador 2
 scanf("%s", jogador2);
 
-printf("\nInsira o tamanho do jogo (entre 5 e 36):\n");
+printf("\nInsira o tamanho do jogo (entre 5 e 36):\n");    // define o tamanho do jogo a se jogar , onde pode gerar matrizes de 5 a 36
 scanf("%d", &tam_jogo);
 	
 system("cls");
@@ -77,9 +77,9 @@ while(1){
 	}
 			cont = 1;
 			if(jog == 0)
-				printf("\n%s, digite linha e coluna:\n", jogador1);
+				printf("\n%s, digite linha e coluna:\n", jogador1);	// Informa a linha que se que formar a | (pipe)  ou - (travessão)
 			else
-				printf("\n%s, digite linha e coluna:\n", jogador2);
+				printf("\n%s, digite linha e coluna:\n", jogador2);	// Informa a coluna que se que formar a | (pipe)  ou - (travessão)
 							
 			scanf("%d %d", &num_linha, &num_coluna);
 					
@@ -97,7 +97,7 @@ while(1){
 //Funcao de instruções
 int instrucoes(){
 		system("cls");
-
+																//Infomacões sobre as regras do jogo
 		while(1){
 			printf("\n____________________________________COMO JOGAR____________________________________");
 			printf("\n\nCada jogador deve fazer uma reta ('|' vertical, ou '_' horizontal) nas coordenadas.");
