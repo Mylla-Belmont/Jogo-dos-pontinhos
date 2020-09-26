@@ -121,13 +121,13 @@ int main(){
         printf("2.  Ver Instrucoes\n");
         printf("0. Sair\n");
 
-        scanf("%d", &opcaoMenu);
-        system("cls || clear");
+        scanf("%d", &opcaoMenu); 	//ler a varivel opcaoMenu
+        system("cls || clear");		//limpa o console
 
         switch(opcaoMenu)
         {
-            case 1:
-                jogo();
+            case 1:			
+                jogo();			//Função que incializa o jogo
                 break;
 
             case 2:
@@ -135,14 +135,14 @@ int main(){
                 break;
 
 
-            case 0:
+            case 0:			//Opção que encerra o programa exibindo mensagem jogo encerrado
                 system("cls");			
 		        printf("\n\n\nJogo enecerrado!\n\n\n"); 				
 		        return 0; 			
 		        break; 	
 
             default:
-                printf("Digite uma opcao valida\n");
+                printf("Digite uma opcao valida\n");  // Retorna mensagem de opção inválida caso usuario digite um valor diderente de 1, 2, 0.
         }
     } while(opcaoMenu);
 } 
