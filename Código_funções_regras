@@ -5,7 +5,7 @@
 //entradas -> VALORES DE INSERIDO PELOS JOGADORES
 
 //variaveis globais
-int aux=0, jogador=0;	
+int aux=0, jogador=0, vencedor1=0, vencedor2=0;	
 
 
 //Estrutura
@@ -19,7 +19,7 @@ typedef struct entradas{
 //Regras do jogo 
 int regras(entradas entrada, int aux){
 	//Regra para inserir tamanho correto da matriz
-	if(aux == 0)																
+	if(aux == 0)															
 		if(entrada.tamanho<5 || entrada.tamanho>36)
 			{ printf("Tamanho invalido! Tente novamente...\n"); return 1; }
 	
@@ -27,6 +27,28 @@ int regras(entradas entrada, int aux){
 	if(aux == 1)
 		if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_')
 			{ printf("Coordenada invalida! Tente novamente...\n"); return 1; }
+		
+	//Regra para contagem de pontos
+	if(aux == 2){
+	
+		if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){
+			if(entrada.matriz[entrada.linha][entrada.coluna-1] == '_' && entrada.matriz[entrada.linha][entrada.coluna-2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna-1] == '_')
+				{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} }
+		}else
+			if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){
+				if(entrada.matriz[entrada.linha][entrada.coluna+1] == '_' && entrada.matriz[entrada.linha][entrada.coluna+2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna+1] == '_')
+					{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} }
+		}else
+			if(entrada.matriz[entrada.linha][entrada.coluna] == '_'){
+				if(entrada.matriz[entrada.linha][entrada.coluna-1] == '|' && entrada.matriz[entrada.linha][entrada.coluna+1] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna] == '_')
+					{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} }
+			}else
+				if(entrada.matriz[entrada.linha][entrada.coluna] == '_'){	//Possui erro a ser resolvido
+					if(entrada.matriz[entrada.linha+1][entrada.coluna-1] == '|' && entrada.matriz[entrada.linha+1][entrada.coluna+1] == '|' && entrada.matriz[entrada.linha+1][entrada.coluna] == '_')
+						{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} }
+		}
+	}	
+		
 		
 	return 0; 
 }
@@ -53,15 +75,16 @@ void imprimirMatriz(entradas entrada){
 	for(int i=0; i<entrada.tamanho; i++){
 		for(int j=0; j<entrada.tamanho+1; j++){
 		
-			if(entrada.matriz[i][j] != '_' && j%2 == 0){ entrada.matriz[i][j] = ' '; }	//Inseri caracteres que forma a matriz
-			else if(entrada.matriz[i][j] != '|'&& j%2 != 0){ entrada.matriz[i][j] = '.'; }
+			if(entrada.matriz[i][j] != '_' && entrada.matriz[i][j] != '|'){ entrada.matriz[i][j] = '.'; }	//Inseri caracteres que forma a matriz
 								
 			entrada.matriz[i][j] = coordenada(entrada, i, j);
 							
 			if(j != entrada.tamanho) { printf(" %c", entrada.matriz[i][j]); }		//Imprimi a matriz
 			else  { printf("\n"); }	
 		}
-	}		
+	}
+	printf("\n%s = %d\n", entrada.nome1, vencedor1);
+	printf("%s = %d\n", entrada.nome2, vencedor2);		
 }
 
 
@@ -97,13 +120,13 @@ int jogo(){
 	printf("----------------------------------------------------------\n\n");
 	
 	entradas entrada;
-	entrada = leitura(entrada);		//Chama a função leitura
+	entrada = leitura(entrada);						//Chama a função leitura
 
 	while(1){
 		system("cls");
-		imprimirMatriz(entrada);	//Chama a função jogada
+		imprimirMatriz(entrada);					//Chama a função jogada
 		
-		while(1){					//Repetição até o jogador inserir a linha e coluna adequada
+		while(1){									//Repetição até o jogador inserir a linha e coluna adequada
 			aux = 1;
 			
 			if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);
@@ -118,6 +141,9 @@ int jogo(){
 			entrada.matriz [entrada.linha][entrada.coluna] = '_';
 		else if(entrada.coluna % 2 != 0)
 			entrada.matriz [entrada.linha][entrada.coluna] = '|';
+		
+		aux = 2;
+		regras(entrada, aux);	
 						
 	jogador = !jogador;			// Alterna nome dos jogadores
 	
