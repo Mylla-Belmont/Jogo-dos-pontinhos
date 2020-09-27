@@ -5,7 +5,7 @@
 //entradas -> VALORES DE INSERIDO PELOS JOGADORES
 
 //variaveis globais
-int aux=0, cont=0, jogador=0;	
+int aux=0, jogador=0;	
 
 
 //Estrutura
@@ -18,12 +18,15 @@ typedef struct entradas{
 
 //Regras do jogo 
 int regras(entradas entrada, int aux){
-	if(aux == 0)		//Regra para inserir tamanho correto da matriz
-		if(entrada.tamanho<5 || entrada.tamanho>36){ printf("Tamanho invalido! Tente novamente...\n"); return 1; }
+	//Regra para inserir tamanho correto da matriz
+	if(aux == 0)																
+		if(entrada.tamanho<5 || entrada.tamanho>36)
+			{ printf("Tamanho invalido! Tente novamente...\n"); return 1; }
 	
-	if(aux == 1)		//Regra para sobreposição de retas
+	//Regra para sobreposição de retas
+	if(aux == 1)
 		if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_')
-			{ printf("coordenada invalida! Tente novamente...\n"); return 1; }
+			{ printf("Coordenada invalida! Tente novamente...\n"); return 1; }
 		
 	return 0; 
 }
@@ -32,56 +35,33 @@ int regras(entradas entrada, int aux){
 //Função que imprime as coordenadas
 char coordenada(entradas entrada, int i, int j){
 	
-	if(i == 0){												//Para linhas
-		if(j >= 10){ entrada.matriz[i][j] = 'A'+(j-10);		//Transforma numeros duplos em letras
-		}else { entrada.matriz[i][j] = j+'0'; }	
+	if(i == 0){												//Transforma numeros duplos em letras (linhas)
+		if(j >= 10) { entrada.matriz[i][j] = 'A'+(j-10); }		
+		else { entrada.matriz[i][j] = j+'0'; }	
 	}
-	if(j == 0){												//Para colunas
-		if(i >= 10){ entrada.matriz[i][j] = 'A'+(i-10);		//Transforma numeros duplos em letras
+	if(j == 0){												//Transforma numeros duplos em letras (colunas)
+		if(i >= 10){ entrada.matriz[i][j] = 'A'+(i-10);		
 		}else { entrada.matriz[i][j] = i+'0'; }
 	}	
 	return entrada.matriz[i][j];
 }
 
 
-//Função de jogadas
-void jogada(entradas entrada){
-	
-	while(1){
+//Função para imprimir a matriz
+void imprimirMatriz(entradas entrada){
 		
-		for(int i=0; i<entrada.tamanho; i++){
-			for(int j=0; j<entrada.tamanho+1; j++){
-
-				if(cont == 0 && j%2 == 0){ entrada.matriz[i][j] = ' '; }	//Inseri caracteres que forma a matriz
-				else if(cont == 0){ entrada.matriz[i][j] = '.'; }
-							
-				entrada.matriz[i][j] = coordenada(entrada, i, j);
-						
-				if(j != entrada.tamanho) { printf(" %c", entrada.matriz[i][j]); }		//Imprimi a matriz
-				else  { printf("\n"); }	
-			}
-		}		
-		cont=1; 
-			
-		while(1){
-			aux = 1;
-			
-			if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);   //Lê a jogada dos jogadores
-			else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
-												
-			scanf("%d %d", &entrada.linha, &entrada.coluna);
-				
-			if(regras(entrada, aux) == 0) { break; }		//Verifica se há sobreposição de retas
-		}
+	for(int i=0; i<entrada.tamanho; i++){
+		for(int j=0; j<entrada.tamanho+1; j++){
+		
+			if(entrada.matriz[i][j] != '_' && j%2 == 0){ entrada.matriz[i][j] = ' '; }	//Inseri caracteres que forma a matriz
+			else if(entrada.matriz[i][j] != '|'&& j%2 != 0){ entrada.matriz[i][j] = '.'; }
 								
-			if(entrada.coluna % 2 == 0)							//Adiciona | em colunas pontilhadas e _ em espaços vazios
-				entrada.matriz [entrada.linha][entrada.coluna] = '_';
-			if(entrada.coluna % 2 != 0)
-				entrada.matriz [entrada.linha][entrada.coluna] = '|';
-						
-		jogador = !jogador;			// Alterna nome dos jogadores
-		system("cls");		
-	}
+			entrada.matriz[i][j] = coordenada(entrada, i, j);
+							
+			if(j != entrada.tamanho) { printf(" %c", entrada.matriz[i][j]); }		//Imprimi a matriz
+			else  { printf("\n"); }	
+		}
+	}		
 }
 
 
@@ -94,7 +74,7 @@ entradas leitura(entradas entrada){
 	printf("\nQual o nome do jodador 2?\n");
 	scanf("%s", entrada.nome2);
 
-	while(aux == 0){
+	while(1){
 		printf("\nInsira o tamanho do jogo (entre 5 e 36):\n");
 		scanf("%d", &entrada.tamanho);
 		
@@ -118,9 +98,30 @@ int jogo(){
 	
 	entradas entrada;
 	entrada = leitura(entrada);		//Chama a função leitura
+
+	while(1){
+		system("cls");
+		imprimirMatriz(entrada);	//Chama a função jogada
+		
+		while(1){					//Repetição até o jogador inserir a linha e coluna adequada
+			aux = 1;
+			
+			if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);
+			else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
+												
+			scanf("%d %d", &entrada.linha, &entrada.coluna);
+				
+			if(regras(entrada, aux) == 0) { break; }		//Verifica se há sobreposição de retas
+		}
+								
+		if(entrada.coluna % 2 == 0)							
+			entrada.matriz [entrada.linha][entrada.coluna] = '_';
+		else if(entrada.coluna % 2 != 0)
+			entrada.matriz [entrada.linha][entrada.coluna] = '|';
+						
+	jogador = !jogador;			// Alterna nome dos jogadores
 	
-	system("cls");
-	jogada(entrada);				//Chama a função jogada
+	}
 	return 0;
 }
 
