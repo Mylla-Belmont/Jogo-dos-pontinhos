@@ -48,8 +48,6 @@ int regras(entradas entrada, int aux){
 						{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} }
 		}
 	}	
-		
-		
 	return 0; 
 }
 
