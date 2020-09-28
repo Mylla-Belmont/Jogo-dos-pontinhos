@@ -16,4 +16,5 @@ Requisitos (até o momento):
 	- Matriz;
 	- Funções;
 	- Strings;
+	- Struct;
 	- Estruturas condicionais;
