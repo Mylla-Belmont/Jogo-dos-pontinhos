@@ -47,7 +47,7 @@ int regra1(entradas entrada){
 
 char inserirCaracter(entradas entrada){
 	
-	if((entrada.linha == 1 || entrada.linha == 9) && (entrada.coluna % 2 != 0)){	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
+	if((entrada.linha == 1) && (entrada.coluna % 2 != 0)){	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
 		printf("Essa jogada nao e muito inteligente :( \nTente novamente!\n\n");
 		jogador = !jogador; 
 		system("pause");
