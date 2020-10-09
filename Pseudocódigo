@@ -25,9 +25,9 @@ vazio: regra2(entradas entrada){
 		se(entrada.matriz[entrada.linha][entrada.coluna - 1] for igual 'travessao' AND entrada.matriz[entrada.linha][entrada.coluna - 2] for igual a 'pipe' AND entrada.matriz[entrada.linha - 1][entrada.coluna - 1] for igual a 'travessao')
 			{ 
 			se(jogador for igual a 0) {
-				vencedor1 = vencedor1 + 1; 
+				vencedor1 recebe vencedor1 + 1; 
 			} senao {
-				vencedor2 = vencedor2 +1;
+				vencedor2 recebe vencedor2 +1;
 				} 
 				jogador for diferente de jogador; 
 			}	//Incrementa pontos para o jogador que fez a ultima jogada e inverte o numero dos jogadores, para que quem ganhou pontos possa jogar novamente
@@ -36,9 +36,9 @@ vazio: regra2(entradas entrada){
 			se(entrada.matriz[entrada.linha][entrada.coluna + 1] for igual a 'travessao' AND entrada.matriz[entrada.linha][entrada.coluna + 2] for igual a 'pipe' AND entrada.matriz[entrada.linha - 1][entrada.coluna + 1] for igual a  'travessao')
 				{ 
 			se(jogador for igaul a 0) {
-				vencedor1 = vencedor1 + 1;
+				vencedor1 recebe vencedor1 + 1;
 				} senao {
-					vencedor2 = vencedor2 +1;
+					vencedor2 recebe vencedor2 +1;
 					} 
 					jogador for diferente de jogador; 	
 				}
@@ -47,9 +47,9 @@ vazio: regra2(entradas entrada){
 				se(entrada.matriz[entrada.linha][entrada.coluna-1] for igual 'pipe' AND entrada.matriz[entrada.linha][entrada.coluna + 1] for igual a 'pipe' AND entrada.matriz[entrada.linha - 1][entrada.coluna] for igual 'travessao')
 					{ 
 				se(jogador for igual a 0) {
-					vencedor1 = vencedor1 + 1;
+					vencedor1 recebe vencedor1 + 1;
 					} senao {
-						vencedor2 = vencedor2 +1;
+						vencedor2 recebe vencedor2 + 1;
 						} 
 						jogador for diferente de jogador;
 						}
@@ -58,9 +58,9 @@ vazio: regra2(entradas entrada){
 					se(entrada.matriz[entrada.linha + 1][entrada.coluna - 1] for igual a 'pipe' AND entrada.matriz[entrada.linha + 1][entrada.coluna + 1] for igual a 'pipe' AND entrada.matriz[entrada.linha + 1][entrada.coluna] for igual a 'travessao')
 						{ 
 					se(jogador for igual a 0) {
-						vencedor1 = vencedor1 + 1;
+						vencedor1 recebe vencedor1 + 1;
 						} senao {
-							vencedor2 = vencedor2 +1;
+							vencedor2 recebe vencedor2 +1;
 							} 
 							jogador for diferente de jogador;
 							}
@@ -108,8 +108,8 @@ caractere: coordenada(entradas entrada, inteira i, inteira j){
 //Função para imprimir a matriz
 vazio: imprimirMatriz(entradas entrada){
 		
-	para(inteira i=0; i<tamanho; i++){
-		para(inteira j=0; j<tamanho+1; j++){
+	para(inteira: i  recebe 0; i for menor que tamanho; i recebe i + 1){
+		para(inteira: j recebe 0; j for menor que tamanho + 1; j recebe j +1){
 			
 			se((entrada.matriz[i][j] for diferente de 'travessao' AND entrada.matriz[i][j] for diferente de 'pipe'))	//Faz desenho da matriz com pontos
 				entrada.matriz[i][j] recebe 'ponto';
