@@ -4,9 +4,9 @@
 #include <stdlib.h>			
 #include <string.h> 
 
-//ENTRADAS -> Valores inseridos pelos jogadores
-//REGRA 1 -> Verificar sobreposicao de retas
-//REGRA 2 -> Contagem de pontos
+//ENTRADAS - Valores inseridos pelos jogadores
+//REGRA 1 - Verificar sobreposicao de retas
+//REGRA 2 - Contagem de pontos
 
 //variaveis globais
 inteira: tamanho =10, jogador=0, vencedor1=0, vencedor2=0;	
