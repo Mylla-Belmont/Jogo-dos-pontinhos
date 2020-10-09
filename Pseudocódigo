@@ -1,141 +1,145 @@
-/* Bibliotecas */
+//Bibliotecas
 
-//Entradas -> valores inserindo pelos jogadores
-//REGRA 1 -> verificar sobreposição de retas
-//REGRA 2 -> Contagem dos pontos
+#include <stdio.h>			
+#include <stdlib.h>			
+#include <string.h> 
 
-//variáveis globais
-tamanho = 10, jogador = 0, vencedor1=0, vencedor2=0: inteira; 
+//ENTRADAS -> Valores inseridos pelos jogadores
+//REGRA 1 -> Verificar sobreposicao de retas
+//REGRA 2 -> Contagem de pontos
 
+//variaveis globais
+inteira: tamanho =10, jogador=0, vencedor1=0, vencedor2=0;	
 
-//definição da estrutura do jogo
-tipo entradas: registro
-inicio
-	nome1[50], nome2[50]: caractere;
-	matriz[100][100]: caractere;
-	linha, coluna: inteiro;
-fim_registro
+//Estrutura
+tipo estrutura{
+	caractere: nome1[50], nome2[50];
+	caractere: matriz[100][100];
+	inteira: linha, coluna;
+}entradas;
 
+//Regra para contagem de pontos e jogador fazer uma jogada novamente caso tenha conseguido pontos 
+vazio: regra2(entradas entrada){ 
+	
+	se(entrada.matriz[entrada.linha][entrada.coluna] for igual a 'pipe'){
+		se(entrada.matriz[entrada.linha][entrada.coluna - 1] for igual 'travessao' AND entrada.matriz[entrada.linha][entrada.coluna - 2] for igual a 'pipe' AND entrada.matriz[entrada.linha - 1][entrada.coluna - 1] for igual a 'travessao')
+			{ 
+			se(jogador for igual a 0) {
+				vencedor1 = vencedor1 + 1; 
+			} senao {
+				vencedor2 = vencedor2 +1;
+				} 
+				jogador for diferente de jogador; 
+			}	//Incrementa pontos para o jogador que fez a ultima jogada e inverte o numero dos jogadores, para que quem ganhou pontos possa jogar novamente
+	}senao
+		se(entrada.matriz[entrada.linha][entrada.coluna] for igual a 'pipe'){    //Possui erro a ser resolvido
+			se(entrada.matriz[entrada.linha][entrada.coluna + 1] for igual a 'travessao' AND entrada.matriz[entrada.linha][entrada.coluna + 2] for igual a 'pipe' AND entrada.matriz[entrada.linha - 1][entrada.coluna + 1] for igual a  'travessao')
+				{ 
+			se(jogador for igaul a 0) {
+				vencedor1 = vencedor1 + 1;
+				} senao {
+					vencedor2 = vencedor2 +1;
+					} 
+					jogador for diferente de jogador; 	
+				}
+		}senao
+			se(entrada.matriz[entrada.linha][entrada.coluna] for igual a 'travessao'){
+				se(entrada.matriz[entrada.linha][entrada.coluna-1] for igual 'pipe' AND entrada.matriz[entrada.linha][entrada.coluna + 1] for igual a 'pipe' AND entrada.matriz[entrada.linha - 1][entrada.coluna] for igual 'travessao')
+					{ 
+				se(jogador for igual a 0) {
+					vencedor1 = vencedor1 + 1;
+					} senao {
+						vencedor2 = vencedor2 +1;
+						} 
+						jogador for diferente de jogador;
+						}
+			}senao
+				se(entrada.matriz[entrada.linha][entrada.coluna] for igual a 'travessao'){	//Possui erro a ser resolvido
+					se(entrada.matriz[entrada.linha + 1][entrada.coluna - 1] for igual a 'pipe' AND entrada.matriz[entrada.linha + 1][entrada.coluna + 1] for igual a 'pipe' AND entrada.matriz[entrada.linha + 1][entrada.coluna] for igual a 'travessao')
+						{ 
+					se(jogador for igual a 0) {
+						vencedor1 = vencedor1 + 1;
+						} senao {
+							vencedor2 = vencedor2 +1;
+							} 
+							jogador for diferente de jogador;
+							}
+				}
+}	
 
-//Função Regras do Jogo	
-	inteira: regras(entradas: entrada, inteira: aux){
-		
-	se(aux == 0)
-		se(entrada.tamanho > 5 ou entrada.tamnho > 36){
-			imprima("Tamanho inválido! Tente novamente... \n");
+//Regra para sobreposição de retas
+inteira: regra1(entradas entrada){ 
+	
+	se(entrada.matriz[entrada.linha][entrada.coluna] for igual a 'pipe' OR entrada.matriz [entrada.linha][entrada.coluna] for igual a 'travessao'){ 
+		imprima("Essa coordenada ja foi usada! Tente novamente...\n");
+		retorne 1; // 1 retorna true
 		}
-	se(aux == 1)
-		se(entrada.natriz[entrada.linha][entrada.coluna] == 'pipe' ou entrada.matriz[entrada.linha][entrada.coluna] == 'travessao')
-			{
-			imprima("Coordenada inválida! Tente novamnete...\n");
-			retorne 1;
-		}
-			retorne 0;
+	retorne 0;	// 0  retorna false
 }
 
-
-//Função coordenada
-caractere: coordenada(entradas: entrada, inteira: i, inteira: j){
-	se ( i == 0){
-		se(j maior ou igual 10){
-			entrada.matriz [i][j] = 'A' + (j -10); 
-		} senão {
-			entrada.matriz[i][j] = j + '0;
-			}
-		}
-		se (j == 0){
-			se(i >= 10){
-				entrada.matriz[i][j] = 'A'+(i-10);
-			}senão{
-				entrada.matriz[i][j] = i + '0';
-			}
-		}
-		retorne entrada.matriz[i][j];
+caractere: inserirCaracter(entradas entrada){
+	
+	se((entrada.linha for igual a 1) AND (entrada.coluna MÓDULO 2 for diferente de 0)){	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
+		imprima("Essa jogada nao e muito inteligente :( \nTente novamente!\n\n");
+		jogador for diferente de jogador;
+		system("pause");
 	}
-
-
-
-//Função Jogada
-void: jogada(entradas: entrada){
 	
-    Enquanto (1){
-		i,j: inteira;
-        para (i = 0; i < entrada.tamanho; i++){                  //Coluna e linha a maisa para adicionar as coordenadas
-			para (j = 0; j < entrada.tamanho; i++){
-
-            Se (cont == 0 e j % 2 == 0){                     //Imprime matriz sem nenhuma jogada
-              senao se(cont == 0){
-				entrada.matriz[i][j] = '.';
-			  }
-			  
-			  entrada.matriz [i][j] = coordenada(entrada, i, j);
-			  
-			  se ( j != entrada.tamanho){
-				  imprima(" %c", entrada.matriz[i][j]);
-			  } senao{
-				  imprima("\n");
-			  }
-			}
-		}
-        
-		cont = 1;
-		Enquanto (1){	
-			aux = 1;
-            
-			Se(jogador == 0)
-				imprima("\n%s, digite linha e coluna:\n", entrada.nome1);
-			senão
-				imprima("\n%s, digite linha e coluna:\n");
-			
-			leia ("%d %d ", &entrada.linha, &entrada.coluna);
-			
-			se (regras(entrada, aux) == 0){
-				pare;
-		}
-			
-			se (entrada.coluna % 2 == 0)
-				entrada.matriz [ entrada.liha][entrada.coluna] = 'travessao';
-			se (entrada.coluna % 2 != 0)
-				entrada.matriz [entrada.linha][entrada.coluna] = 'pipe';
-			
-		jogador =! jogador;
-		
-		system("limpa tela");
-              
-        
-              
-    }   	
+	senao se(entrada.coluna MÓDULO 2 for igual a 0) 
+		entrada.matriz [entrada.linha][entrada.coluna] recebe 'travessao'; 
+	senao se(entrada.coluna MÓDULO 2 for diferente de 0) 
+		entrada.matriz [entrada.linha][entrada.coluna] recebe 'pipe'; 
+	
+	retorne entrada.matriz [entrada.linha][entrada.coluna];
 }
 
-
-// Função para leitura das informações
-entrada leitura(entradas: entrada){
-    
-    
-    Imprima (“Qual o nome do jogador 1?:\n”);
-    Leia ("%s", entrada.nome1);
-
-    Imprima (“Qual o nome do jogador 2?:\n”);
-    Leia ("%s", entrada.nome2);
-
-	enquanto(aux == 0)
+//Função que imprime as coordenadas
+caractere: coordenada(entradas entrada, inteira i, inteira j){
 	
-		Imprima (“\nInsira o tamanho do jogo (entre 5 e 36): \n”);
-		Leia ("%d", &entrada.tamanho);
-    
-		se (regras(entrada, aux) == 0{   // verifica se o tamnho lido é valido
-			pare;
+	se(i for igual a 0) { 
+		entrada.matriz[i][j] recebe j + '0'; }  	//Coordenadas para linhas	
+											
+	se(j for igual a 0) {
+		entrada.matriz[i][j] recebe i + '0'; }	//Coordenadas para colunas
+		
+	retorne entrada.matriz[i][j];
+}
+
+//Função para imprimir a matriz
+vazio: imprimirMatriz(entradas entrada){
+		
+	para(inteira i=0; i<tamanho; i++){
+		para(inteira j=0; j<tamanho+1; j++){
+			
+			se((entrada.matriz[i][j] for diferente de 'travessao' AND entrada.matriz[i][j] for diferente de 'pipe'))	//Faz desenho da matriz com pontos
+				entrada.matriz[i][j] recebe 'ponto';
+								
+			entrada.matriz[i][j] recebe coordenada(entrada, i, j);		//Chama funçao para inserir coordenadas na matriz
+							
+			se(j for diferente de tamanho) { 
+				imprima(" %c", entrada.matriz[i][j]); }		//Imprimi a matriz
+			senao  { 
+				imprima("\n"); }	
 		}
+	}	
+}
+
+//Função para leitura de informações
+entradas leitura(entradas entrada){
+	
+	imprima("Qual o nome do jodador 1?\n");
+	leia("%s", entrada.nome1);
+
+	imprima("\nQual o nome do jodador 2?\n");
+	leia("%s", entrada.nome2);
+
 	retorne entrada;
 }
 
+//Função principal do jogo
+vazio: jogo(){
+	system("limpa tela");
 
-//Funçao Principal do jogo
-
-inteira: jogo(){
-	system("color 10");  // Define cor do fundo para azul
-	system("cls"); //Limpa o console
-	
 	imprima("----------------------------------------------------------\n");
 	imprima("|########################################################|\n");
 	imprima("|###############                        #################|\n");
@@ -143,65 +147,77 @@ inteira: jogo(){
 	imprima("|###############                        #################|\n");
 	imprima("|########################################################|\n");
 	imprima("----------------------------------------------------------\n\n");
+	
+	entradas entrada;								//Define variavel 'entrada' para struct
+	entrada = leitura(entrada);						//Chama a função leitura
 
-	entradas entrada;
-	entrada = leitura(entrada);  //chama a função leitura
-	
-	system("cls");
-	jogada(entrada);   //chama a função jogada
-	
+	enquanto(1){
+		system("limpa a tela");
+		imprimirMatriz(entrada);					//Chama a função jogada
+		
+		imprima("\n%s = %d\n", entrada.nome1, vencedor1);
+		imprima("%s = %d\n", entrada.nome2, vencedor2);	
+		
+		enquanto(1){									//Repetição até o jogador inserir a linha e coluna adequada
+		
+			se(jogador for igual a 0) 
+				imprima("\n%s, digite linha e coluna:\n", entrada.nome1);
+			senao 
+				imprima("\n%s, digite linha e coluna:\n", entrada.nome2);
+												
+			leia("%d %d", &entrada.linha, &entrada.coluna);
+				
+			se(regra1(entrada) for igual a 0) { 
+				pare; 
+			}		//Verifica se há sobreposição de retas
+		}
+		
+		entrada.matriz [entrada.linha][entrada.coluna] recebe inserirCaracter(entrada);
+		
+		regra2(entrada);	
+		jogador for diferente de jogador;			// Alterna nome dos jogadores
+	}
 }
 
-
-// Função para instruções
-void: instruções{
-    
-system("cls");
+//Funcao de instruções
+vazio: instrucoes(){
+	system("limpa a tela");
 	
 	imprima("\n____________________________________COMO JOGAR____________________________________");
 	imprima("\n\nCada jogador deve fazer uma reta ('|' vertical, ou '_' horizontal) nas coordenadas.");
-	imprima("\nGanha aquele que fechar o maior numero de quadrados!\n\n");
+	imprima("\nGanha aquele que fechar o maior numero de quadrados!\n\n\n");
 	imprima("\n______________________________________REGRAS______________________________________");
 	imprima("\n\n1 - Nao pode sobrepor retas.");
 	imprima("\n2 - Um quadrado so podera ser completado caso ja houver 3 lados preenchidos.");
 	imprima("\n3 - Caso o jogador complete um quadrado, tera o direito de fazer uma nova reta.\n\n");			
 }
 
+//Funcao main (principal) com menu, onde cada funcao é chamada  dentro da sua opcao
+inteira principal(){
+	inteira opcaoMenu;
 
-// Menu do jogo 
-inteira: main{
-    int opcaoMenu;
-    
 	faça{
-    // Imprimir “abertura do jogo” aqui
+		system("limpa a tela");
+		imprima("\n\tMenu\n\nO que voce quer fazer?\n\n1 - Iniciar o Jogo\n2 - Ver Instrucoes\n3 - Sair do jogo\n-->\n"); 		
+		leia(" %i",&opcaoMenu); 
 
-	    imprima (“Escolha uma opção: \n”);
-	    imprima (“1 - Jogar ”);
-	    imprima (“2 - Instruções”);
-	    imprima (“3 - Sair”);
-	    Leia ("%d", &opcaoMenu);
-		system("cls ou clear");	
-	
-		caso opcao seja:
-		
-			caso 1:
-				chamar função jogo();
+		interruptor(opcaoMenu){ 						
+			caso 1: 			
+				jogo(); 
 				pare;
-			caso 2:
-				chamar função instrucoes();
-				pare;
-			caso 0:
-				system("cls");
-				imprima("\n\n\nJogo Encerrado!\n\n\n");
 				
-				retorne 0;
-				pare;
-			
-			padrao:
-				imprima("Digite uma opção válida\n");
-	}
-}enquanto(opcaoMenu);
-		
-} 
-
-    
+			caso 2:
+				instrucoes();
+				system("pause");		//Permite voltar para o menu sem reiniciar o jogo
+				
+			caso 3: 			
+				system("limpa a tela");			
+				imprima("\n\n\nJogo encerrado!\n\n\n");
+				pare; 	
+					
+			padrão: 			
+				imprima("\nOpcao invalida, tente novamente!\n"); 
+				system("pause");		//Permite voltar para o menu sem reiniciar o jogo
+		}
+	}enquanto(opcaoMenu for diferente de 3);
+}
