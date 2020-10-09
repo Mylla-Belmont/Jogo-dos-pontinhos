@@ -1,9 +1,11 @@
 /* Bibliotecas */
 
 //Entradas -> valores inserindo pelos jogadores
+//REGRA 1 -> verificar sobreposição de retas
+//REGRA 2 -> Contagem dos pontos
 
 //variáveis globais
-aux = 0, cont = 0, jogador = 0: inteira 
+tamanho = 10, jogador = 0, vencedor1=0, vencedor2=0: inteira; 
 
 
 //definição da estrutura do jogo
@@ -11,7 +13,7 @@ tipo entradas: registro
 inicio
 	nome1[50], nome2[50]: caractere;
 	matriz[100][100]: caractere;
-	tamanho, linha, coluna: inteiro;
+	linha, coluna: inteiro;
 fim_registro
 
 
