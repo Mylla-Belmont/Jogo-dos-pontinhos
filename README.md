@@ -1,7 +1,7 @@
 # JOGO DOS PONTINHOS - PROJETO FINAL DA DISCIPLINA FUNDAMENTOS DE PROGRAMAÇÃO - UFC CAMPUS DE QUIXADÁ
 - Realizadores:
-	Camila Belmont
-	Irandilson Damasceno
+	Camila Belmont,
+	Irandilson Damasceno,
 	Ana Karine
 
 Regras:
