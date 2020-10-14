@@ -7,7 +7,7 @@
 //REGRA 2 -> Contagem de pontos
 
 //variaveis globais
-int tamanho=10, jogador=0, vencedor1=0, vencedor2=0;	
+int jogador=0, vencedor1=0, vencedor2=0;	
 
 //Estrutura
 typedef struct entradas{
@@ -38,16 +38,14 @@ void regra3(entradas entrada){
 }	
 
 //Regra para sobreposição de retas
-int regra2(entradas entrada){ 
-	
-	if(entrada.linha >= tamanho || entrada.coluna >= tamanho)
+int regra2(entradas entrada, int tamanho){ 
+	if(entrada.linha >= tamanho || entrada.coluna >= tamanho || entrada.linha <= 0 || entrada.coluna <= 0)
 		{ printf("Coordenada invalida! Tente novamente...\n"); return 1; }
 	return 0;	
 }
 
 //Regra para sobreposição de retas
 int regra1(entradas entrada){ 
-	
 	if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_')
 		{ printf("Essa coordenada ja foi usada! Tente novamente...\n"); return 1; }
 	return 0;	
@@ -56,12 +54,11 @@ int regra1(entradas entrada){
 char inserirCaracter(entradas entrada){
 	
 	if((entrada.linha == 1) && (entrada.coluna % 2 != 0)){	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
-		printf("Essa nao pode ser usada... Tente novamente!\n\n");
+		printf("Essa coordenada nao pode ser usada... Tente novamente!\n\n");
 		jogador = !jogador; 
 		system("pause");
-	}
 	
-	else if(entrada.coluna % 2 == 0) 
+	}else if(entrada.coluna % 2 == 0) 
 		entrada.matriz [entrada.linha][entrada.coluna] = '_'; 
 	else if(entrada.coluna % 2 != 0) 
 		entrada.matriz [entrada.linha][entrada.coluna] = '|'; 
@@ -72,18 +69,17 @@ char inserirCaracter(entradas entrada){
 //Função que imprime as coordenadas
 char coordenada(entradas entrada, int i, int j){
 	
-	if(i == 0) { entrada.matriz[i][j] = j+'0'; }  	//Coordenadas para linhas	
-											
+	if(i == 0) { entrada.matriz[i][j] = j+'0'; }  	//Coordenadas para linhas									
 	if(j == 0) { entrada.matriz[i][j] = i+'0'; }	//Coordenadas para colunas
 		
 	return entrada.matriz[i][j];
 }
 
 //Função para imprimir a matriz
-void imprimirMatriz(entradas entrada){
-		
+void imprimirMatriz(entradas entrada, int tamanho){
+	
 	for(int i=0; i<tamanho; i++){
-		for(int j=0; j<tamanho+1; j++){
+		for(int j=0; j<=tamanho; j++){
 			
 			if((entrada.matriz[i][j] != '_' && entrada.matriz[i][j] != '|'))	//Faz desenho da matriz com pontos
 				entrada.matriz[i][j] = '.';
@@ -111,7 +107,6 @@ entradas leitura(entradas entrada){
 //Função principal do jogo
 void jogo(){
 	system("cls");
-
 	printf("----------------------------------------------------------\n");
 	printf("|########################################################|\n");
 	printf("|###############                        #################|\n");
@@ -122,39 +117,35 @@ void jogo(){
 	
 	entradas entrada;								//Define variavel 'entrada' para struct
 	entrada = leitura(entrada);						//Chama a função leitura
-
-	while(1){
+	int tamanho = 10;	
+	
+	do{
 		system("cls");
-		imprimirMatriz(entrada);					//Chama a função jogada
+		imprimirMatriz(entrada, tamanho);					//Chama a função jogada
 		
 		printf("\n%s = %d\n", entrada.nome1, vencedor1);
 		printf("%s = %d\n", entrada.nome2, vencedor2);	
 		
-		while(1){									//Repetição até o jogador inserir a linha e coluna adequada
-		
-			while(1){
-				
-				if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);
-				else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
+			do{									//Repetição até o jogador inserir a linha e coluna adequada
+				do{	
+					if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);
+					else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
 												
-				scanf("%d %d", &entrada.linha, &entrada.coluna);
+					scanf("%d %d", &entrada.linha, &entrada.coluna);
 			
-				if(regra2(entrada) == 0) { break; }		//Verifica se entrada das coordenadas é válida 
-			}	
-			if(regra1(entrada) == 0) { break; }		//Verifica se há sobreposição de retas
-		}
-		
-		entrada.matriz [entrada.linha][entrada.coluna] = inserirCaracter(entrada);
-		
+				}while(regra2(entrada, tamanho) != 0);		//Verifica se entrada das coordenadas é válida 
+			}while(regra1(entrada) != 0); 		//Verifica se há sobreposição de retas
+
+		entrada.matriz[entrada.linha][entrada.coluna] = inserirCaracter(entrada);
 		regra3(entrada);	
 		jogador = !jogador;			// Alterna nome dos jogadores
-	}
+		
+	}while(1);
 }
 
 //Funcao de instruções
 void instrucoes(){
 	system("cls");
-	
 	printf("\n____________________________________COMO JOGAR____________________________________");
 	printf("\n\nCada jogador deve fazer uma reta ('|' vertical, ou '_' horizontal) nas coordenadas.");
 	printf("\nGanha aquele que fechar o maior numero de quadrados!\n\n\n");
@@ -180,11 +171,11 @@ int main(){
 			case 2:
 				instrucoes();
 				system("pause");		//Permite voltar para o menu sem reiniciar o jogo
-				
+			
 			case 3: 			
 				system("cls");			
 				printf("\n\n\nJogo encerrado!\n\n\n"); break; 	
-					
+			
 			default: 			
 				printf("\nOpcao invalida, tente novamente!\n"); 
 				system("pause");		//Permite voltar para o menu sem reiniciar o jogo
