@@ -10,14 +10,14 @@
 int tamanho=10, jogador=0, vencedor1=0, vencedor2=0;	
 
 //Estrutura
-typedef struct{
+typedef struct entradas{
 	char nome1[50], nome2[50];
 	char matriz[100][100];
 	int linha, coluna;
 }entradas;
 
 //Regra para contagem de pontos e jogador fazer uma jogada novamente caso tenha conseguido pontos 
-void regra2(entradas entrada){ 
+void regra3(entradas entrada){ 
 	
 	if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){
 		if(entrada.matriz[entrada.linha][entrada.coluna-1] == '_' && entrada.matriz[entrada.linha][entrada.coluna-2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna-1] == '_')
@@ -38,6 +38,14 @@ void regra2(entradas entrada){
 }	
 
 //Regra para sobreposição de retas
+int regra2(entradas entrada){ 
+	
+	if(entrada.linha >= tamanho || entrada.coluna >= tamanho)
+		{ printf("Coordenada invalida! Tente novamente...\n"); return 1; }
+	return 0;	
+}
+
+//Regra para sobreposição de retas
 int regra1(entradas entrada){ 
 	
 	if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_')
@@ -48,7 +56,7 @@ int regra1(entradas entrada){
 char inserirCaracter(entradas entrada){
 	
 	if((entrada.linha == 1) && (entrada.coluna % 2 != 0)){	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
-		printf("Essa jogada nao e muito inteligente :( \nTente novamente!\n\n");
+		printf("Essa nao pode ser usada... Tente novamente!\n\n");
 		jogador = !jogador; 
 		system("pause");
 	}
@@ -124,11 +132,15 @@ void jogo(){
 		
 		while(1){									//Repetição até o jogador inserir a linha e coluna adequada
 		
-			if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);
-			else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
-												
-			scanf("%d %d", &entrada.linha, &entrada.coluna);
+			while(1){
 				
+				if(jogador == 0) printf("\n%s, digite linha e coluna:\n", entrada.nome1);
+				else printf("\n%s, digite linha e coluna:\n", entrada.nome2);
+												
+				scanf("%d %d", &entrada.linha, &entrada.coluna);
+			
+				if(regra2(entrada) == 0) { break; }		//Verifica há entrada das coordenadas
+			}	
 			if(regra1(entrada) == 0) { break; }		//Verifica se há sobreposição de retas
 		}
 		
