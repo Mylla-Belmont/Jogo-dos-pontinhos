@@ -4,37 +4,36 @@
 
 //ENTRADAS -> Valores inseridos pelos jogadores
 //REGRA 1 -> Verificar sobreposicao de retas
-//REGRA 2 -> Contagem de pontos
-
-//variaveis globais
-int jogador=0, vencedor1=0, vencedor2=0;	
+//REGRA 2 -> Verificar se coordenada é válida
+//REGRA 3 -> Contagem de pontos
 
 //Estrutura
 typedef struct entradas{
-	char nome1[50], nome2[50];
 	char matriz[100][100];
+	char nome1[50], nome2[50];
 	int linha, coluna;
 }entradas;
 
 //Regra para contagem de pontos e jogador fazer uma jogada novamente caso tenha conseguido pontos 
-void regra3(entradas entrada){ 
+int regra3(entradas entrada, int vencedor){ 
 	
 	if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){
 		if(entrada.matriz[entrada.linha][entrada.coluna-1] == '_' && entrada.matriz[entrada.linha][entrada.coluna-2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna-1] == '_')
-			{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} jogador = !jogador; }	//Incrementa pontos para o jogador que fez a ultima jogada e inverte o numero dos jogadores, para que quem ganhou pontos possa jogar novamente
-	}else
-		if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){    //Possui erro a ser resolvido
-			if(entrada.matriz[entrada.linha][entrada.coluna+1] == '_' && entrada.matriz[entrada.linha][entrada.coluna+2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna+1] == '_')
-				{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} jogador = !jogador;	}
-		}else
-			if(entrada.matriz[entrada.linha][entrada.coluna] == '_'){
-				if(entrada.matriz[entrada.linha][entrada.coluna-1] == '|' && entrada.matriz[entrada.linha][entrada.coluna+1] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna] == '_')
-					{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} jogador = !jogador;	}
-			}else
-				if(entrada.matriz[entrada.linha][entrada.coluna] == '_'){	//Possui erro a ser resolvido
-					if(entrada.matriz[entrada.linha+1][entrada.coluna-1] == '|' && entrada.matriz[entrada.linha+1][entrada.coluna+1] == '|' && entrada.matriz[entrada.linha+1][entrada.coluna] == '_')
-						{ if(jogador == 0) {vencedor1++; } else {vencedor2++;} jogador = !jogador;	}
-				}
+			return vencedor=1; 	
+	}
+	if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){    
+		if(entrada.matriz[entrada.linha][entrada.coluna+1] == '_' && entrada.matriz[entrada.linha][entrada.coluna+2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna+1] == '_')
+			return vencedor=1;	
+	}
+	if(entrada.matriz[entrada.linha][entrada.coluna] == '_'){
+		if(entrada.matriz[entrada.linha][entrada.coluna-1] == '|' && entrada.matriz[entrada.linha][entrada.coluna+1] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna] == '_')
+			return vencedor=1;	
+	}
+	if(entrada.matriz[entrada.linha][entrada.coluna] == '_'){	
+		if(entrada.matriz[entrada.linha+1][entrada.coluna-1] == '|' && entrada.matriz[entrada.linha+1][entrada.coluna+1] == '|' && entrada.matriz[entrada.linha+1][entrada.coluna] == '_')
+			return vencedor=1;	
+	}
+	return 0;
 }	
 
 //Regra para sobreposição de retas
@@ -53,12 +52,9 @@ int regra1(entradas entrada){
 
 char inserirCaracter(entradas entrada){
 	
-	if((entrada.linha == 1) && (entrada.coluna % 2 != 0)){	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
-		printf("Essa coordenada nao pode ser usada... Tente novamente!\n\n");
-		jogador = !jogador; 
-		system("pause");
-	
-	}else if(entrada.coluna % 2 == 0) 
+	if((entrada.linha == 1) && (entrada.coluna % 2 != 0))	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
+		entrada.matriz [entrada.linha][entrada.coluna] = '*';
+	else if(entrada.coluna % 2 == 0) 
 		entrada.matriz [entrada.linha][entrada.coluna] = '_'; 
 	else if(entrada.coluna % 2 != 0) 
 		entrada.matriz [entrada.linha][entrada.coluna] = '|'; 
@@ -81,7 +77,7 @@ void imprimirMatriz(entradas entrada, int tamanho){
 	for(int i=0; i<tamanho; i++){
 		for(int j=0; j<=tamanho; j++){
 			
-			if((entrada.matriz[i][j] != '_' && entrada.matriz[i][j] != '|'))	//Faz desenho da matriz com pontos
+			if(entrada.matriz[i][j] != '_' && entrada.matriz[i][j] != '|' && entrada.matriz[i][j] != '*')	//Faz desenho da matriz com pontos
 				entrada.matriz[i][j] = '.';
 								
 			entrada.matriz[i][j] = coordenada(entrada, i, j);		//Chama funçao para inserir coordenadas na matriz
@@ -117,7 +113,8 @@ void jogo(){
 	
 	entradas entrada;								//Define variavel 'entrada' para struct
 	entrada = leitura(entrada);						//Chama a função leitura
-	int tamanho = 10;	
+	
+	int tamanho=10, jogador=0, vencedor, vencedor1=0, vencedor2=0;
 	
 	do{
 		system("cls");
@@ -133,12 +130,19 @@ void jogo(){
 												
 					scanf("%d %d", &entrada.linha, &entrada.coluna);
 			
-				}while(regra2(entrada, tamanho) != 0);		//Verifica se entrada das coordenadas é válida 
-			}while(regra1(entrada) != 0); 		//Verifica se há sobreposição de retas
+				}while(regra2(entrada, tamanho) != 0);				//Verifica se entrada das coordenadas é válida 
+			}while(regra1(entrada) != 0); 							//Verifica se há sobreposição de retas
 
 		entrada.matriz[entrada.linha][entrada.coluna] = inserirCaracter(entrada);
-		regra3(entrada);	
-		jogador = !jogador;			// Alterna nome dos jogadores
+		vencedor = regra3(entrada, vencedor);						//Chama função para contagem de pontos
+		
+		if(vencedor == 1){
+			if(jogador == 0){
+				vencedor1 += vencedor; jogador = !jogador;			//Altera o jogador para fazer mais uma jogada
+			}else{
+				vencedor2 += vencedor; jogador = !jogador;
+			}
+		} jogador = !jogador;										// Alterna nome dos jogadores
 		
 	}while(1);
 }
