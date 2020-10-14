@@ -6,6 +6,7 @@
 //REGRA 1 -> Verificar sobreposicao de retas
 //REGRA 2 -> Verificar se coordenada é válida
 //REGRA 3 -> Contagem de pontos
+//REGRA 4 -> Finalizar jogo
 
 //Estrutura
 typedef struct entradas{
@@ -13,6 +14,19 @@ typedef struct entradas{
 	char nome1[50], nome2[50];
 	int linha, coluna;
 }entradas;
+
+//Regra para finalizar o jogo
+int regra4(entradas entrada, int tamanho){
+	int cont=0;	
+		
+	for(int i=0; i<tamanho; i++)
+		for(int j=0; j<=tamanho; j++)
+			if(entrada.matriz[i][j] == '|' || entrada.matriz[i][j] == '_' || entrada.matriz[i][j] == '*') 
+				cont++;
+
+	if(cont == 81) { return 1; }	//Matriz possui 81 pontos a serem completados 
+	return 0;
+}
 
 //Regra para contagem de pontos e jogador fazer uma jogada novamente caso tenha conseguido pontos 
 int regra3(entradas entrada, int vencedor){ 
@@ -52,7 +66,7 @@ int regra1(entradas entrada){
 
 char inserirCaracter(entradas entrada){
 	
-	if((entrada.linha == 1) && (entrada.coluna % 2 != 0))	//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
+	if((entrada.linha == 1) && (entrada.coluna % 2 != 0))		//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
 		entrada.matriz [entrada.linha][entrada.coluna] = '*';
 	else if(entrada.coluna % 2 == 0) 
 		entrada.matriz [entrada.linha][entrada.coluna] = '_'; 
@@ -103,13 +117,11 @@ entradas leitura(entradas entrada){
 //Função principal do jogo
 void jogo(){
 	system("cls");
-	printf("----------------------------------------------------------\n");
-	printf("|########################################################|\n");
-	printf("|###############                        #################|\n");
-	printf("|###############   JOGO DOS PONTINHOS   #################|\n");
-	printf("|###############                        #################|\n");
-	printf("|########################################################|\n");
-	printf("----------------------------------------------------------\n\n");
+	printf(".........................................................\n");
+	printf("................                        .................\n");
+	printf("................   JOGO DOS PONTINHOS   .................\n");
+	printf("................                        .................\n");
+	printf(".........................................................\n\n");
 	
 	entradas entrada;								//Define variavel 'entrada' para struct
 	entrada = leitura(entrada);						//Chama a função leitura
@@ -144,16 +156,32 @@ void jogo(){
 			}
 		} jogador = !jogador;										// Alterna nome dos jogadores
 		
-	}while(1);
+	}while(regra4(entrada, tamanho) == 0);
+
+	//Arte para final de jogo e exibição do ganhador
+	system("cls");
+	printf("                        ............................\n");
+	printf("....................................................\n");
+	printf("...................FIM DE JOGO!.....................\n");
+	printf("....................................................\n");
+	
+	if(vencedor1 == vencedor2){						//Bloco para verifica quem é o ganhador
+	printf("......................EMPATE!\n\n");
+	}else if(vencedor1 > vencedor2){
+	printf("....................Parabens %s!\n\n", entrada.nome1);
+	}else if(vencedor2 > vencedor1){
+	printf("....................Parabens %s!\n\n", entrada.nome2);
+	} system("pause");
 }
 
 //Funcao de instruções
 void instrucoes(){
 	system("cls");
-	printf("\n____________________________________COMO JOGAR____________________________________");
-	printf("\n\nCada jogador deve fazer uma reta ('|' vertical, ou '_' horizontal) nas coordenadas.");
-	printf("\nGanha aquele que fechar o maior numero de quadrados!\n\n\n");
-	printf("\n______________________________________REGRAS______________________________________");
+	printf("\n...................................COMO JOGAR........................................");
+	printf("\n\nCada jogador uma reta nas coordenadas.");
+	printf("\nAs retas estao posicionadas na horizontal e vertical.");
+	printf("\nGanha aquele que fechar o maior numero de quadrados!\n\n");
+	printf("\n.....................................REGRAS..........................................");
 	printf("\n\n1 - Nao pode sobrepor retas.");
 	printf("\n2 - Um quadrado so podera ser completado caso ja houver 3 lados preenchidos.");
 	printf("\n3 - Caso o jogador complete um quadrado, tera o direito de fazer uma nova reta.\n\n");			
