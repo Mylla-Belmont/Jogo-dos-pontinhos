@@ -2,6 +2,10 @@
 #include <stdlib.h>			
 #include <string.h> 
 
+//Caso queira diminuir o tamanho da matriz para testar o jogo de forma mais rápida,
+//basta alterar o valor da variavel tamanho (função jogo) para 5 [int tamanho = 5], 
+//e alterar o valor de comparação da condição cont (função regra 4) para 16 [if(cont == 5)]
+
 //ENTRADAS -> Valores inseridos pelos jogadores
 //REGRA 1 -> Verificar sobreposicao de retas
 //REGRA 2 -> Verificar se coordenada é válida
@@ -24,14 +28,16 @@ int regra4(entradas entrada, int tamanho){
 			if(entrada.matriz[i][j] == '|' || entrada.matriz[i][j] == '_' || entrada.matriz[i][j] == '*') 
 				cont++;
 
-	if(cont == 81) { return 1; }	//Matriz possui 81 pontos a serem completados 
+	if(cont == 81)  //Matriz possui 81 pontos a serem preenchidos
+		return 1; 	 
+	
 	return 0;
 }
 
 //Regra para contagem de pontos e jogador fazer uma jogada novamente caso tenha conseguido pontos 
 int regra3(entradas entrada, int vencedor){ 
 	
-	if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){
+	if(entrada.matriz[entrada.linha][entrada.coluna] == '|'){	//Condições para verificar de acordo com a ultima jogada
 		if(entrada.matriz[entrada.linha][entrada.coluna-1] == '_' && entrada.matriz[entrada.linha][entrada.coluna-2] == '|' && entrada.matriz[entrada.linha-1][entrada.coluna-1] == '_')
 			return vencedor=1; 	
 	}
@@ -52,21 +58,25 @@ int regra3(entradas entrada, int vencedor){
 
 //Regra para validação de coordenada
 int regra2(entradas entrada, int tamanho){ 
-	if(entrada.linha >= tamanho || entrada.coluna >= tamanho || entrada.linha <= 0 || entrada.coluna <= 0)
-		{ printf("Coordenada invalida! Tente novamente...\n"); return 1; }
+	if(entrada.linha >= tamanho || entrada.coluna >= tamanho || entrada.linha <= 0 || entrada.coluna <= 0){
+		printf("Coordenada invalida! Tente novamente...\n"); 
+		return 1; 
+	}
 	return 0;	
 }
 
 //Regra para sobreposição de retas
 int regra1(entradas entrada){ 
-	if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_')
-		{ printf("Essa coordenada ja foi usada! Tente novamente...\n"); return 1; }
+	if(entrada.matriz[entrada.linha][entrada.coluna] == '|' || entrada.matriz [entrada.linha][entrada.coluna] == '_' || entrada.matriz [entrada.linha][entrada.coluna] == '*'){
+		printf("Essa coordenada ja foi usada! Tente novamente...\n"); 
+		return 1; 
+	}
 	return 0;	
 }
 
 char inserirCaracter(entradas entrada){
 	
-	if((entrada.linha == 1) && (entrada.coluna % 2 != 0))		//Nao permite inserir caracteres em locais que sera impossivel fechar um quadrado
+	if((entrada.linha == 1) && (entrada.coluna % 2 != 0))	//Não permite inserir caracteres em coordenadas inutilizaveis (impossiveis de fechar um quadrado)
 		entrada.matriz [entrada.linha][entrada.coluna] = '*';
 	else if(entrada.coluna % 2 == 0) 
 		entrada.matriz [entrada.linha][entrada.coluna] = '_'; 
@@ -150,9 +160,11 @@ void jogo(){
 		
 		if(vencedor == 1){
 			if(jogador == 0){
-				vencedor1 += vencedor; jogador = !jogador;			//Altera o jogador para fazer mais uma jogada
+				vencedor1 += vencedor; 
+				jogador = !jogador;			//Altera o jogador para fazer mais uma jogada
 			}else{
-				vencedor2 += vencedor; jogador = !jogador;
+				vencedor2 += vencedor; 
+				jogador = !jogador;
 			}
 		} jogador = !jogador;										// Alterna nome dos jogadores
 		
@@ -166,11 +178,11 @@ void jogo(){
 	printf("....................................................\n");
 	
 	if(vencedor1 == vencedor2){						//Bloco para verifica quem é o ganhador
-	printf("......................EMPATE!\n\n");
+		printf("......................EMPATE!\n\n");
 	}else if(vencedor1 > vencedor2){
-	printf("....................Parabens %s!\n\n", entrada.nome1);
+		printf("....................Parabens %s!\n\n", entrada.nome1);
 	}else if(vencedor2 > vencedor1){
-	printf("....................Parabens %s!\n\n", entrada.nome2);
+		printf("....................Parabens %s!\n\n", entrada.nome2);
 	} system("pause");
 }
 
